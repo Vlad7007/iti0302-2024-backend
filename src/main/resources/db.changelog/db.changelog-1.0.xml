@@ -11,19 +11,25 @@
         http://www.liquibase.org/xml/ns/pro
         http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-<!--    <changeSet id="2024-10-03 Add book table" author="Vladislav Nikiforov">-->
-<!--        <createTable tableName="book">-->
-<!--            <column name="id" type="bigint" autoIncrement="true">-->
-<!--                <constraints primaryKey="true"/>-->
-<!--            </column>-->
-<!--            <column name="title" type="text"/>-->
-<!--            <column name="author" type="text"/>-->
-<!--            <column name="genre" type="text"/>-->
-<!--        </createTable>-->
-<!--    </changeSet>-->
+    <changeSet id="2024-10-16 Add product sequence" author="Vladislav Nikiforov">
+        <createSequence sequenceName="product_seq" startValue="1" />
+    </changeSet>
 
-<!--    <changeSet id="2024-10-03 Add book sequence" author="Vladislav Nikiforov">-->
-<!--        <createSequence sequenceName="book_seq" startValue="1" />-->
-<!--    </changeSet>-->
+    <changeSet id="2024-10-16 Add product table" author="Your Name">
+        <createTable tableName="product">
+            <column name="id" type="bigint" defaultValueComputed="NEXTVAL('product_seq')">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>

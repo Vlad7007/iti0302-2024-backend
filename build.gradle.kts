@@ -21,14 +21,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation ("org.postgresql:postgresql")
-    implementation ("org.mapstruct:mapstruct:1.6.2.Final")
+    implementation("org.mapstruct:mapstruct:1.6.2")
     implementation ("org.liquibase:liquibase-core")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     compileOnly ("org.projectlombok:lombok:1.18.34")
     annotationProcessor ("org.projectlombok:lombok:1.18.34")
-    annotationProcessor ("org.mapstruct:mapstruct-processor:1.6.2.Final")
+    annotationProcessor ("org.mapstruct:mapstruct-processor:1.6.2")
 }
 
 tasks.withType<Test> {
