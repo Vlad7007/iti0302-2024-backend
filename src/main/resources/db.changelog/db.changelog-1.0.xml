@@ -14,6 +14,7 @@
     <changeSet id="2024-10-16 Add product sequence" author="Inventory Juggler Org.">
         <createSequence sequenceName="product_seq" startValue="1" />
         <createSequence sequenceName="category_seq" startValue="1" />
+        <createSequence sequenceName="supplier_seq" startValue="1" />
     </changeSet>
 
     <changeSet id="2024-10-16 Add product table" author="Inventory Juggler Org.">
@@ -49,6 +50,22 @@
             </column>
         </createTable>
     </changeSet>
+
+
+    <changeSet id="2024-10-17 Add supplier table" author="Inventory Juggler Org.">
+        <createTable tableName="supplier">
+            <column name="id" type="bigint" defaultValueComputed="NEXTVAL('supplier_seq')">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet id="2024-10-17 Add FK to Product table" author="Inventory Juggler Org.">
         <addForeignKeyConstraint baseTableName="product"
                                  baseColumnNames="category_id"
