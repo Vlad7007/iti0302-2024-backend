@@ -1,0 +1,27 @@
+package ee.taltech.iti03022024backend.invjug.controller;
+
+import ee.taltech.iti03022024backend.invjug.dto.SupplierDto;
+import ee.taltech.iti03022024backend.invjug.service.SupplierService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RequestMapping("inventory-juggler/suppliers")
+@RestController
+public class SupplierController {
+    private final SupplierService supplierService;
+
+    public SupplierController(SupplierService supplierService) {
+        this.supplierService = supplierService;
+    }
+
+    @PostMapping
+    public SupplierDto createSupplier(@RequestBody SupplierDto supplierDto) {
+        return supplierService.createSupplier(supplierDto);
+    }
+
+    @GetMapping
+    public List<SupplierDto> getAllSuppliers() {
+        return supplierService.getAllSuppliers();
+    }
+}
