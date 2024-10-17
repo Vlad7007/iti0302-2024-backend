@@ -1,5 +1,6 @@
 package ee.taltech.iti03022024backend.invjug.controller;
 
+import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
 import ee.taltech.iti03022024backend.invjug.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +17,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
+    public ProductDto createProduct(@RequestBody ProductDto productDto) {
+        return productService.createProduct(productDto);
     }
 
     @GetMapping
-    public List<Product> getAllBooks() {
+    public List<ProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
 }

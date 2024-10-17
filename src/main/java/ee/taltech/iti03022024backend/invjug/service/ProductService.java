@@ -1,6 +1,6 @@
 package ee.taltech.iti03022024backend.invjug.service;
 
-import ee.taltech.iti03022024backend.invjug.controller.Product;
+import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
 import ee.taltech.iti03022024backend.invjug.mapping.ProductMapper;
 import ee.taltech.iti03022024backend.invjug.repository.ProductEntity;
 import ee.taltech.iti03022024backend.invjug.repository.ProductRepository;
@@ -20,15 +20,15 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product createProduct(Product product) {
-        ProductEntity productEntity = productMapper.toProductEntity(product);
+    public ProductDto createProduct(ProductDto productDto) {
+        ProductEntity productEntity = productMapper.toProductEntity(productDto);
         ProductEntity savedEntity = productRepository.save(productEntity);
 
-        return productMapper.toProduct(savedEntity);
+        return productMapper.toProductDto(savedEntity);
     }
 
-    public List<Product> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
         List<ProductEntity> products = productRepository.findAll();
-        return products.stream().map(productMapper::toProduct).collect(Collectors.toList());
+        return products.stream().map(productMapper::toProductDto).collect(Collectors.toList());
     }
 }
