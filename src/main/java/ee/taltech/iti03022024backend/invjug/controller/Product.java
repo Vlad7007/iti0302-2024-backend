@@ -6,7 +6,7 @@ import lombok.Data;
 public class Product {
 
     private Long id;
-    private String title;
+    private String name;
     private Long price;
     private Long quantity;
 
