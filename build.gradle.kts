@@ -23,6 +23,8 @@ dependencies {
     implementation ("org.postgresql:postgresql")
     implementation("org.mapstruct:mapstruct:1.6.2")
     implementation ("org.liquibase:liquibase-core")
+    implementation("org.hibernate.validator:hibernate-validator")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

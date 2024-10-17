@@ -20,4 +20,6 @@ public class ProductEntity {
 
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
+    @Column(name = "supplier_id", nullable = false)
+    private Long supplierId;
 }

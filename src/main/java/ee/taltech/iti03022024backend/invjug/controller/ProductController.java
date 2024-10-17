@@ -2,6 +2,7 @@ package ee.taltech.iti03022024backend.invjug.controller;
 
 import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
 import ee.taltech.iti03022024backend.invjug.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductDto createProduct(@RequestBody ProductDto productDto) {
+    public ProductDto createProduct(@Valid @RequestBody ProductDto productDto) {
         return productService.createProduct(productDto);
     }
 
@@ -33,7 +34,7 @@ public class ProductController {
     }
 
     @PutMapping("{id}")
-    public ProductDto updateProduct(@PathVariable("id") Long id, @RequestBody ProductDto updatedProductDto) {
+    public ProductDto updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ProductDto updatedProductDto) {
         return productService.updateProduct(id, updatedProductDto);
     }
 
