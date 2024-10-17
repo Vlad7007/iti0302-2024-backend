@@ -31,6 +31,9 @@
             <column name="quantity" type="bigint">
                 <constraints nullable="false"/>
             </column>
+                <column name="category_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
         </createTable>
     </changeSet>
 
@@ -48,6 +51,7 @@
         </createTable>
     </changeSet>
 
+
     <changeSet id="2024-10-17 Add supplier table" author="Inventory Juggler Org.">
         <createTable tableName="supplier">
             <column name="id" type="bigint" defaultValueComputed="NEXTVAL('supplier_seq')">
@@ -62,5 +66,12 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2024-10-17 Add FK to Product table" author="Inventory Juggler Org.">
+        <addForeignKeyConstraint baseTableName="product"
+                                 baseColumnNames="category_id"
+                                 referencedTableName="category"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_product_category"/>
+    </changeSet>
 
 </databaseChangeLog>
