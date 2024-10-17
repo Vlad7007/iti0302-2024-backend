@@ -11,16 +11,17 @@
         http://www.liquibase.org/xml/ns/pro
         http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-    <changeSet id="2024-10-16 Add product sequence" author="Vladislav Nikiforov">
+    <changeSet id="2024-10-16 Add product sequence" author="Inventory Juggler Org.">
         <createSequence sequenceName="product_seq" startValue="1" />
+        <createSequence sequenceName="category_seq" startValue="1" />
     </changeSet>
 
-    <changeSet id="2024-10-16 Add product table" author="Your Name">
+    <changeSet id="2024-10-16 Add product table" author="Inventory Juggler Org.">
         <createTable tableName="product">
             <column name="id" type="bigint" defaultValueComputed="NEXTVAL('product_seq')">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="title" type="varchar(255)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="price" type="bigint">
@@ -31,5 +32,20 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="2024-10-17 Add category table" author="Inventory Juggler Org.">
+        <createTable tableName="category">
+            <column name="id" type="bigint" defaultValueComputed="NEXTVAL('category_seq')">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 
 </databaseChangeLog>
