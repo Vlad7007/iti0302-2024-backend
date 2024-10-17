@@ -7,7 +7,6 @@ import ee.taltech.iti03022024backend.invjug.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -29,6 +28,6 @@ public class ProductService {
 
     public List<ProductDto> getAllProducts() {
         List<ProductEntity> products = productRepository.findAll();
-        return products.stream().map(productMapper::toProductDto).collect(Collectors.toList());
+        return products.stream().map(productMapper::toProductDto).toList();
     }
 }
