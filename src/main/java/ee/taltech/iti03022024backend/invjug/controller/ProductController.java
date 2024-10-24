@@ -3,20 +3,19 @@ package ee.taltech.iti03022024backend.invjug.controller;
 import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
 import ee.taltech.iti03022024backend.invjug.service.ProductService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/inventory-juggler/products")
+@RequestMapping("/api/products")
 @RestController
+@RequiredArgsConstructor
+
 public class ProductController {
 
     private final ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
 
     @PostMapping
     public ProductDto createProduct(@Valid @RequestBody ProductDto productDto) {
