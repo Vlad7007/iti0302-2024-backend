@@ -2,19 +2,11 @@ services:
   postgres:
     image: postgres:14.1
     environment:
-      - POSTGRES_USER=pogreb
-      - POSTGRES_PASSWORD=Mrk5zVld7007
-      - POSTGRES_DB=inventory-juggler
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=postgres
     ports:
       - '5432:5432'
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 
-  backend:
-    image: vnikif/inventory-juggler:backend
-    depends_on:
-      - postgres
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./application.properties:/app/application.properties
