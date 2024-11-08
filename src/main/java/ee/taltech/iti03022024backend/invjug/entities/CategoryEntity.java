@@ -1,4 +1,4 @@
-package ee.taltech.iti03022024backend.invjug.repository;
+package ee.taltech.iti03022024backend.invjug.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

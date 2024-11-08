@@ -1,9 +1,9 @@
 package ee.taltech.iti03022024backend.invjug.service;
 
-import ee.taltech.iti03022024backend.invjug.controller.NotFoundException;
+import ee.taltech.iti03022024backend.invjug.errorhandling.NotFoundException;
 import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
 import ee.taltech.iti03022024backend.invjug.mapping.ProductMapper;
-import ee.taltech.iti03022024backend.invjug.repository.ProductEntity;
+import ee.taltech.iti03022024backend.invjug.entities.ProductEntity;
 import ee.taltech.iti03022024backend.invjug.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 

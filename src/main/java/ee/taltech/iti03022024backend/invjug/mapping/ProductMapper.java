@@ -1,7 +1,7 @@
 package ee.taltech.iti03022024backend.invjug.mapping;
 
 import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
-import ee.taltech.iti03022024backend.invjug.repository.ProductEntity;
+import ee.taltech.iti03022024backend.invjug.entities.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

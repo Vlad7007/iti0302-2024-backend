@@ -1,7 +1,7 @@
 package ee.taltech.iti03022024backend.invjug.mapping;
 
 import ee.taltech.iti03022024backend.invjug.dto.SupplierDto;
-import ee.taltech.iti03022024backend.invjug.repository.SupplierEntity;
+import ee.taltech.iti03022024backend.invjug.entities.SupplierEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

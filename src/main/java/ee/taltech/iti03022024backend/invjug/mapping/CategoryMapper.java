@@ -1,7 +1,7 @@
 package ee.taltech.iti03022024backend.invjug.mapping;
 
 import ee.taltech.iti03022024backend.invjug.dto.CategoryDto;
-import ee.taltech.iti03022024backend.invjug.repository.CategoryEntity;
+import ee.taltech.iti03022024backend.invjug.entities.CategoryEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

@@ -1,4 +1,4 @@
-package ee.taltech.iti03022024backend.invjug.controller;
+package ee.taltech.iti03022024backend.invjug.errorhandling;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

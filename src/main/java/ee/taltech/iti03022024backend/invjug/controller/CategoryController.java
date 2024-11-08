@@ -2,6 +2,7 @@ package ee.taltech.iti03022024backend.invjug.controller;
 
 import ee.taltech.iti03022024backend.invjug.dto.CategoryDto;
 import ee.taltech.iti03022024backend.invjug.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto createCategory(@Valid @RequestBody CategoryDto categoryDto) {
         return categoryService.createCategory(categoryDto);
     }
 

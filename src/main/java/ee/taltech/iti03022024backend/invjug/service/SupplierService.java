@@ -2,7 +2,7 @@ package ee.taltech.iti03022024backend.invjug.service;
 
 import ee.taltech.iti03022024backend.invjug.dto.SupplierDto;
 import ee.taltech.iti03022024backend.invjug.mapping.SupplierMapper;
-import ee.taltech.iti03022024backend.invjug.repository.SupplierEntity;
+import ee.taltech.iti03022024backend.invjug.entities.SupplierEntity;
 import ee.taltech.iti03022024backend.invjug.repository.SupplierRepository;
 import org.springframework.stereotype.Service;
 

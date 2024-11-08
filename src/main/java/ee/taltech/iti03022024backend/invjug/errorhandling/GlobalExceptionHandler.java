@@ -1,4 +1,4 @@
-package ee.taltech.iti03022024backend.invjug.controller;
+package ee.taltech.iti03022024backend.invjug.errorhandling;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
