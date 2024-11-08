@@ -1,0 +1,69 @@
+# This file is a template, and might need editing before it works on your project.
+# This is a sample GitLab CI/CD configuration file that should run without any modifications.
+# It demonstrates a basic 3 stage CI/CD pipeline. Instead of real tests or scripts,
+# it uses echo commands to simulate the pipeline execution.
+#
+# A pipeline is composed of independent jobs that run scripts, grouped into stages.
+# Stages run in sequential order, but jobs within stages run in parallel.
+#
+# For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
+#
+# You can copy and paste this template into a new `.gitlab-ci.yml` file.
+# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
+#
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - dockerize
+  - deploy
+
+variables:
+  DOCKER_REGISTRY: docker.io
+  DOCKER_IMAGE: vnikif/inventory-juggler
+
+build:
+  stage: build
+  image: gradle:jdk21
+  script:
+    - chmod +x ./gradlew
+    - ./gradlew clean build
+  artifacts:
+    paths:
+      - build/libs/*.jar
+
+dockerize:
+  stage: dockerize
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  script:
+   - |
+    echo "DOCKER_REGISTRY: $DOCKER_REGISTRY"
+    echo "DOCKER_IMAGE: $DOCKER_IMAGE"
+    echo "CI_COMMIT_SHORT_SHA: $CI_COMMIT_SHORT_SHA"
+    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY
+    docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA .
+    docker push $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA
+    docker tag $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA $DOCKER_REGISTRY/$DOCKER_IMAGE:latest
+    docker push $DOCKER_REGISTRY/$DOCKER_IMAGE:latest
+
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - ssh -o StrictHostKeyChecking=no ubuntu@193.40.255.38 "
+      cd /opt/inventory-juggler &&
+      docker-compose pull &&
+      docker-compose up -d --remove-orphans"
