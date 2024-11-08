@@ -52,7 +52,7 @@ Replace `your-application-name.jar` with the actual name of your JAR file.
 Build the Docker image using the following command:
 
 ```bash
-docker build -t your-image-name .
+docker build -t vnikif/inventory-juggler:backend .
 ```
 
 ### How to Run the Docker Container
@@ -60,9 +60,7 @@ docker build -t your-image-name .
 To run the Docker container, use the following command:
 
 ```bash
-docker run -p 8080:8080 your-image-name
+docker run -p 8080:8080 vnikif/inventory-juggler
 ```
 
 This command will start the container and map port 8080 of the container to port 8080 on your host machine.
-
-Make sure to replace `your-image-name` with the name you used when building the Docker image. Adjust the port numbers if your application uses a different port.

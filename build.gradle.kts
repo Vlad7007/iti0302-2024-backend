@@ -1,6 +1,6 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.3.4"
+    id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
 }
 
@@ -28,8 +28,8 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    compileOnly ("org.projectlombok:lombok:1.18.34")
-    annotationProcessor ("org.projectlombok:lombok:1.18.34")
+    compileOnly ("org.projectlombok:lombok")
+    annotationProcessor ("org.projectlombok:lombok")
     annotationProcessor ("org.mapstruct:mapstruct-processor:1.6.2")
 }
 
