@@ -65,5 +65,5 @@ deploy:
   script:
     - ssh -o StrictHostKeyChecking=no ubuntu@193.40.255.38 "
       cd /opt/inventory-juggler &&
-      docker-compose pull &&
-      docker-compose up -d --remove-orphans"
+      docker compose pull &&
+      docker compose up -d --remove-orphans"
