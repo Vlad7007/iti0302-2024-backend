@@ -18,6 +18,7 @@ public class ProductController {
 
     @PostMapping
     public ProductDto createProduct(@Valid @RequestBody ProductDto productDto) {
+        System.out.println("Received ProductDto: " + productDto);
         return productService.createProduct(productDto);
     }
 

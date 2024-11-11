@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter @Setter
 @Table(name = "product")
 @Entity
@@ -18,8 +20,14 @@ public class ProductEntity {
     private Long price;
     private Long quantity;
 
-    @Column(name = "category_id", nullable = false)
-    private Long categoryId;
+    @ManyToMany
+    @JoinTable(
+            name = "product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<CategoryEntity> categories;
+
     @Column(name = "supplier_id", nullable = false)
     private Long supplierId;
 }

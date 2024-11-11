@@ -1,8 +1,11 @@
 package ee.taltech.iti03022024backend.invjug.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 public record ProductDto(
         Long id,
@@ -19,8 +22,9 @@ public record ProductDto(
         @Min(value = 0, message = "Quantity must be greater than or equal to 0")
         Long quantity,
 
-        @NotNull(message = "Category ID cannot be null")
-        Long categoryId,
+        @NotNull(message = "Category IDs cannot be null")
+        @NotEmpty(message = "Category IDs cannot be empty")
+        List<Long> categoryIds,
 
         @NotNull(message = "Supplier ID cannot be null")
         Long supplierId

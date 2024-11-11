@@ -31,9 +31,6 @@
             <column name="quantity" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="category_id" type="bigint">
-                    <constraints nullable="false"/>
-            </column>
             <column name="supplier_id" type="bigint">
                     <constraints nullable="false"/>
             </column>
@@ -49,7 +46,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -69,13 +66,27 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2024-10-17 Add FK to Product table" author="Inventory Juggler Org.">
-        <addForeignKeyConstraint baseTableName="product"
+    <changeSet id="2024-10-17 Add product_category join table" author="Inventory Juggler Org.">
+        <createTable tableName="product_category">
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="product_category"
+                                 baseColumnNames="product_id"
+                                 referencedTableName="product"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_product_category_product"/>
+        <addForeignKeyConstraint baseTableName="product_category"
                                  baseColumnNames="category_id"
                                  referencedTableName="category"
                                  referencedColumnNames="id"
-                                 constraintName="fk_product_category"/>
+                                 constraintName="fk_product_category_category"/>
     </changeSet>
+
     <changeSet id="2024-10-17 Add second FK to Product table" author="Inventory Juggler Org.">
         <addForeignKeyConstraint baseTableName="product"
                                  baseColumnNames="supplier_id"
