@@ -6,8 +6,6 @@ import ee.taltech.iti03022024backend.invjug.entities.ProductEntity;
 import org.mapstruct.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductMapper {
@@ -22,7 +20,7 @@ public interface ProductMapper {
     default List<Long> mapCategoriesToIds(List<CategoryEntity> categories) {
         return categories.stream()
                 .map(CategoryEntity::getId)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Mapping(target = "id", ignore = true)

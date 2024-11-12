@@ -24,6 +24,7 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.6.2")
     implementation ("org.liquibase:liquibase-core")
     implementation("org.hibernate.validator:hibernate-validator")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")

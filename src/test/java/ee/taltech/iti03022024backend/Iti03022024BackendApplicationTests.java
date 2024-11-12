@@ -8,6 +8,7 @@ class Iti03022024BackendApplicationTests {
 
     @Test
     void contextLoads() {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 }
