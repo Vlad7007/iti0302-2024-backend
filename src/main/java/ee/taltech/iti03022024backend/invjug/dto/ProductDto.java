@@ -1,10 +1,7 @@
 package ee.taltech.iti03022024backend.invjug.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -20,12 +17,12 @@ public record ProductDto(
 
         @Schema(description = "Price of the product", example = "55")
         @NotNull(message = "Price cannot be null")
-        @Min(value = 0, message = "Price must be greater than or equal to 0")
+        @PositiveOrZero(message = "Price must be greater than or equal to 0")
         Long price,
 
         @Schema(description = "Quantity of the product", example = "2")
         @NotNull(message = "Quantity cannot be null")
-        @Min(value = 0, message = "Quantity must be greater than or equal to 0")
+        @PositiveOrZero(message = "Quantity must be greater than or equal to 0")
         Long quantity,
 
         @Schema(description = "List of category IDs associated with the product", example = "[1, 2, 3]")

@@ -1,5 +1,6 @@
 package ee.taltech.iti03022024backend.invjug.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -12,5 +13,6 @@ public record SupplierDto(
 
         @NotNull(message = "Email cannot be null")
         @Size(min = 2, max = 255, message = "Email must be between 2 and 255 characters")
+        @Email(message = "Email must match the format user@example.com")
         String email
 ) {}
