@@ -4,19 +4,16 @@ import ee.taltech.iti03022024backend.invjug.dto.SupplierDto;
 import ee.taltech.iti03022024backend.invjug.mapping.SupplierMapper;
 import ee.taltech.iti03022024backend.invjug.entities.SupplierEntity;
 import ee.taltech.iti03022024backend.invjug.repository.SupplierRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class SupplierService {
     private final SupplierRepository supplierRepository;
     private final SupplierMapper supplierMapper;
-
-    public SupplierService(SupplierRepository supplierRepository, SupplierMapper supplierMapper) {
-        this.supplierRepository = supplierRepository;
-        this.supplierMapper = supplierMapper;
-    }
 
     public SupplierDto createSupplier(SupplierDto supplierDto) {
         SupplierEntity supplierEntity = supplierMapper.toSupplierEntity(supplierDto);

@@ -1,13 +1,18 @@
 package ee.taltech.iti03022024backend.invjug.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import ee.taltech.iti03022024backend.invjug.errorhandling.ErrorResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,15 +37,31 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
-        log.info("Request URI: {}", request.getRequestURI());
-        Optional<String> token = getToken(request);
-        if (token.isPresent()) {
-            log.info("Token found: {}", token.get());
-            Claims tokenBody = parseToken(token.get());
-            SecurityContext context = SecurityContextHolder.getContext();
-            context.setAuthentication(buildAuthToken(tokenBody));
-        } else {
-            log.info("No token found");
+        try {
+            log.info("Request URI: {}", request.getRequestURI());
+
+            Optional<String> token = getToken(request);
+
+            token.ifPresentOrElse(
+                    tokenValue -> {
+                        log.info("Token found: {}", token.get());
+                        Claims tokenBody = parseToken(token.get());
+                        SecurityContext context = SecurityContextHolder.getContext();
+                        context.setAuthentication(buildAuthToken(tokenBody));
+                    },
+                    () -> log.info("No token found")
+            );
+
+        } catch (SignatureException e) {
+            log.error("Invalid JWT signature", e);
+
+            ErrorResponse errorResponse = new ErrorResponse("Invalid JWT signature");
+            ResponseEntity<Object> responseEntity = ResponseEntity.badRequest().body(errorResponse);
+            response.setStatus(responseEntity.getStatusCode().value());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getWriter().write(new ObjectMapper().writeValueAsString(responseEntity.getBody()));
+
+            return;
         }
         chain.doFilter(request, response);
     }

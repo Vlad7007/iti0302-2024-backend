@@ -4,6 +4,7 @@ import ee.taltech.iti03022024backend.invjug.dto.LoginRequestDto;
 import ee.taltech.iti03022024backend.invjug.dto.RegisterRequestDto;
 import ee.taltech.iti03022024backend.invjug.dto.TokenResponseDto;
 import ee.taltech.iti03022024backend.invjug.service.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,13 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponseDto> login(@RequestBody LoginRequestDto request) {
+    public ResponseEntity<TokenResponseDto> login(@Valid @RequestBody LoginRequestDto request) {
         TokenResponseDto response = authenticationService.login(request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<TokenResponseDto> register(@RequestBody RegisterRequestDto request) {
+    public ResponseEntity<TokenResponseDto> register(@Valid @RequestBody RegisterRequestDto request) {
         log.info("Received request in controller: {}", request.toString());
         TokenResponseDto response = authenticationService.register(request);
         return ResponseEntity.ok(response);

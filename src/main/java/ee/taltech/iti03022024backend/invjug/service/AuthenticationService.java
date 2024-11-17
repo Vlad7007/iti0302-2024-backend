@@ -6,11 +6,11 @@ import ee.taltech.iti03022024backend.invjug.dto.RegisterRequestDto;
 import ee.taltech.iti03022024backend.invjug.dto.TokenResponseDto;
 import ee.taltech.iti03022024backend.invjug.entities.Role;
 import ee.taltech.iti03022024backend.invjug.entities.UserEntity;
+import ee.taltech.iti03022024backend.invjug.errorhandling.AuthenticationException;
 import ee.taltech.iti03022024backend.invjug.repository.UserRepository;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +19,7 @@ import javax.crypto.SecretKey;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository userRepository;
@@ -26,22 +27,12 @@ public class AuthenticationService {
     private final ApplicationConfiguration applicationConfiguration;
     private final SecretKey key;
 
-    public AuthenticationService(UserRepository userRepository,
-                                 BCryptPasswordEncoder passwordEncoder,
-                                 ApplicationConfiguration applicationConfiguration,
-                                 SecretKey key) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.applicationConfiguration = applicationConfiguration;
-        this.key = key;
-    }
-
     public TokenResponseDto login(LoginRequestDto request) {
         UserEntity user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new AuthenticationException("User not found"));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            throw new BadCredentialsException("Invalid password");
+            throw new AuthenticationException("Invalid password");
         }
 
         String token = applicationConfiguration.generateToken(user, key);
@@ -50,10 +41,10 @@ public class AuthenticationService {
 
     public TokenResponseDto register(@Valid @RequestBody RegisterRequestDto request) {
         if (userRepository.existsByUsername(request.username())) {
-            throw new IllegalArgumentException("Username is already taken");
+            throw new AuthenticationException("Username is already taken");
         }
         if (userRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("Email is already registered");
+            throw new AuthenticationException("Email is already registered");
         }
 
         UserEntity newUser = new UserEntity();

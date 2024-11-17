@@ -4,19 +4,16 @@ import ee.taltech.iti03022024backend.invjug.dto.CategoryDto;
 import ee.taltech.iti03022024backend.invjug.mapping.CategoryMapper;
 import ee.taltech.iti03022024backend.invjug.entities.CategoryEntity;
 import ee.taltech.iti03022024backend.invjug.repository.CategoryRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CategoryService {
     private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
-
-    public CategoryService(CategoryMapper categoryMapper, CategoryRepository categoryRepository) {
-        this.categoryMapper = categoryMapper;
-        this.categoryRepository = categoryRepository;
-    }
 
     public CategoryDto createCategory(CategoryDto categoryDto) {
         CategoryEntity categoryEntity = categoryMapper.toCategoryEntity(categoryDto);

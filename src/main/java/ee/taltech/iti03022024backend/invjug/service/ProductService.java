@@ -7,10 +7,12 @@ import ee.taltech.iti03022024backend.invjug.mapping.ProductMapper;
 import ee.taltech.iti03022024backend.invjug.entities.ProductEntity;
 import ee.taltech.iti03022024backend.invjug.repository.CategoryRepository;
 import ee.taltech.iti03022024backend.invjug.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class ProductService {
 
@@ -20,12 +22,6 @@ public class ProductService {
 
     private static final String PRODUCT_MESSAGE = "Product not found";
     private static final String CATEGORY_MESSAGE = "One or more categories not found";
-
-    public ProductService(ProductMapper productMapper, ProductRepository productRepository, CategoryRepository categoryRepository) {
-        this.productMapper = productMapper;
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
-    }
 
     public ProductDto createProduct(ProductDto productDto) {
         validateCategoryIds(productDto.categoryIds());
