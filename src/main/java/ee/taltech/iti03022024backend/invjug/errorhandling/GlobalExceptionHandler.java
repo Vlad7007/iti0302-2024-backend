@@ -38,7 +38,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex) {
-        return handleException(ex, "Authentication error", HttpStatus.UNAUTHORIZED);
+        return handleException(ex, ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @Override
