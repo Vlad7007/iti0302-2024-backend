@@ -23,7 +23,8 @@ public class ApplicationConfiguration {
         return Jwts.builder()
                 .subject(user.getUsername())
                 .claims(Map.of(
-                        "userId", user.getId()
+                        "userId", user.getId(),
+                        "role", user.getRole().name()
                 ))
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
