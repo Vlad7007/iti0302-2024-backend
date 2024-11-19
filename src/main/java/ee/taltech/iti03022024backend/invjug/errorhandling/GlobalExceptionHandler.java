@@ -20,25 +20,25 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private ResponseEntity<Object> handleException(Exception ex, String message, HttpStatus status) {
+        log.error(message, ex);
+        ErrorResponse errorResponse = new ErrorResponse(message);
+        return new ResponseEntity<>(errorResponse, new HttpHeaders(), status);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex) {
-        log.error("Internal server error", ex);
-        ErrorResponse errorResponse = new ErrorResponse("Internal Server Error");
-        return new ResponseEntity<>(errorResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return handleException(ex, "Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
-        log.error("Resource not found", ex);
-        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
-        return new ResponseEntity<>(errorResponse, new HttpHeaders(), HttpStatus.NOT_FOUND);
+        return handleException(ex, ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex) {
-        log.error("Authentication error", ex);
-        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
-        return new ResponseEntity<>(errorResponse, new HttpHeaders(), HttpStatus.UNAUTHORIZED);
+        return handleException(ex, "Authentication error", HttpStatus.UNAUTHORIZED);
     }
 
     @Override
