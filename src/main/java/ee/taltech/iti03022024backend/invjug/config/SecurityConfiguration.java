@@ -22,6 +22,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 @AllArgsConstructor
@@ -67,22 +68,33 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public CommandLineRunner createDefaultAdminUser() {
+    public CommandLineRunner checkForDefaultAdminUser() {
         return args -> {
-            String adminUsername = env.getProperty("admin.username", "admin");
-            String adminPassword = env.getProperty("admin.password", "12345678");
-            String adminEmail = env.getProperty("admin.email", "admin@example.com");
-            log.info("Trying to create default admin user: {}", adminUsername);
-
             if (userRepository.findByRole(Role.ROLE_ADMIN).isEmpty()) {
-                UserEntity adminUser = new UserEntity();
-                adminUser.setUsername(adminUsername);
-                adminUser.setPassword(passwordEncoder().encode(adminPassword));
-                adminUser.setEmail(adminEmail);
-                adminUser.setRole(ee.taltech.iti03022024backend.invjug.entities.Role.ROLE_ADMIN);
-                userRepository.save(adminUser);
+                String adminUsername = env.getProperty("admin.username");
+                String adminPassword = env.getProperty("admin.password");
+                String adminEmail = env.getProperty("admin.email");
+                log.info("Creating default admin user: {}", adminUsername);
+
+                if (StringUtils.hasText(adminUsername) && StringUtils.hasText(adminPassword) && StringUtils.hasText(adminEmail)) {
+                    createAdminUser(adminUsername, adminPassword, adminEmail);
+                } else {
+                    log.warn("One or more admin properties in application.properties are missing");
+                    log.warn("Using default admin credentials: admin/12345678");
+                    createAdminUser("admin", "12345678", "admin@example.com");
+                }
             }
         };
+    }
+
+    private void createAdminUser(String username, String password, String email) {
+        UserEntity adminUser = new UserEntity();
+        adminUser.setUsername(username);
+        adminUser.setPassword(passwordEncoder().encode(password));
+        adminUser.setEmail(email);
+        adminUser.setRole(Role.ROLE_ADMIN);
+        userRepository.save(adminUser);
+        log.info("Created default admin user: {}", username);
     }
 
 }
