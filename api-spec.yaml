@@ -1,0 +1,554 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://inventory-juggler.sytes.net
+    description: Generated server url
+tags:
+  - name: Authentication
+    description: Authentication and authorization APIs
+  - name: Products
+    description: Products management APIs
+  - name: Admin
+    description: Admin management APIs
+paths:
+  /api/products/{id}:
+    get:
+      tags:
+        - Products
+      summary: Get a product by ID
+      description: Fetches a product by its unique identifier.
+      operationId: getProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully received the product
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+        '404':
+          description: Product not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+    put:
+      tags:
+        - Products
+      summary: Update an existing product
+      description: Updates the details of an existing product by its ID.
+      operationId: updateProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+        required: true
+      responses:
+        '200':
+          description: Product updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+        '404':
+          description: Product not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+    delete:
+      tags:
+        - Products
+      summary: Delete a product
+      description: Deletes a product by its unique identifier.
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Product deleted successfully
+        '404':
+          description: Product not found
+  /api/admin/users/{id}:
+    get:
+      tags:
+        - Admin
+      summary: Get a user by ID
+      description: Fetches a user by their ID.
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: User found successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDto'
+    put:
+      tags:
+        - Admin
+      summary: Update user
+      description: Updates the details of a user by their ID.
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+        required: true
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDto'
+    delete:
+      tags:
+        - Admin
+      summary: Delete a user
+      description: Deletes a user by their ID.
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: User deleted successfully
+  /api/suppliers:
+    get:
+      tags:
+        - supplier-controller
+      operationId: getAllSuppliers
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupplierDto'
+    post:
+      tags:
+        - supplier-controller
+      operationId: createSupplier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+  /api/products:
+    get:
+      tags:
+        - Products
+      summary: Get products based on search criteria
+      description: Fetches a list of products that match the provided search criteria.
+      operationId: getProducts
+      parameters:
+        - name: criteria
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/ProductSearchCriteria'
+      responses:
+        '200':
+          description: Successfully received list of products
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseProductDto'
+    post:
+      tags:
+        - Products
+      summary: Add a new product to the system
+      description: Creates a new product record based on the provided details.
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+        required: true
+      responses:
+        '200':
+          description: Product added successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+  /api/categories:
+    get:
+      tags:
+        - category-controller
+      operationId: getAllCategories
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryDto'
+    post:
+      tags:
+        - category-controller
+      operationId: createCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+  /api/auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register user
+      description: Registers a new user with the provided credentials.
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequestDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully registered
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TokenResponseDto'
+  /api/auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      description: Logs in a user with the provided credentials.
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully logged in
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TokenResponseDto'
+  /api/admin/users:
+    get:
+      tags:
+        - Admin
+      summary: Get all users
+      description: Fetches a list of all users.
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: Successfully received list of users
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
+components:
+  schemas:
+    ProductDto:
+      required:
+        - categoryIds
+        - name
+        - price
+        - quantity
+        - supplierId
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id of the product
+          format: int64
+          example: 2
+        name:
+          maxLength: 255
+          minLength: 2
+          type: string
+          description: Name of the product
+          example: Red Jug
+        price:
+          type: integer
+          description: Price of the product
+          format: int64
+          example: 55
+        quantity:
+          type: integer
+          description: Quantity of the product
+          format: int64
+          example: 2
+        categoryIds:
+          type: array
+          description: List of category IDs associated with the product
+          example:
+            - 1
+            - 2
+            - 3
+          items:
+            type: integer
+            description: List of category IDs associated with the product
+            format: int64
+        supplierId:
+          type: integer
+          description: Supplier ID associated with the product
+          format: int64
+          example: 3
+      description: Data Transfer Object for Product information
+    UserDto:
+      required:
+        - email
+        - role
+        - username
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the user
+          format: int64
+          example: 1
+        username:
+          maxLength: 255
+          minLength: 5
+          type: string
+          description: Username chosen by the user
+          example: johnDoe
+        email:
+          maxLength: 255
+          minLength: 5
+          type: string
+          description: Email address of the user
+          example: john.doe@example.com
+        role:
+          type: string
+          description: Role of the user (USER,MANAGER, ADMIN)
+          example: USER
+          enum:
+            - ROLE_USER
+            - ROLE_MANAGER
+            - ROLE_ADMIN
+      description: User data transfer object
+    SupplierDto:
+      required:
+        - email
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          maxLength: 255
+          minLength: 2
+          type: string
+        email:
+          maxLength: 255
+          minLength: 2
+          type: string
+    CategoryDto:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          maxLength: 255
+          minLength: 2
+          type: string
+        description:
+          type: string
+    RegisterRequestDto:
+      required:
+        - email
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          maxLength: 255
+          minLength: 5
+          type: string
+          description: Username to register with
+          example: johnDoe
+        password:
+          maxLength: 255
+          minLength: 8
+          type: string
+          description: Password to register with
+          example: password123
+        email:
+          maxLength: 255
+          minLength: 5
+          type: string
+          description: Email address to register with
+          example: john.doe@example.com
+      description: Registration request data transfer object
+    TokenResponseDto:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Generated token for authentication
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+      description: Token response data transfer object
+    LoginRequestDto:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          maxLength: 255
+          minLength: 5
+          type: string
+          description: Username to login with
+          example: johnDoe
+        password:
+          maxLength: 255
+          minLength: 8
+          type: string
+          description: Password to login with
+          example: password123
+      description: Login request data transfer object
+    ProductSearchCriteria:
+      type: object
+      properties:
+        name:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: Name of the product to search for
+          example: Apple
+        minPrice:
+          type: number
+          description: Minimum price of the product to search for
+          example: 10.99
+        maxPrice:
+          type: number
+          description: Maximum price of the product to search for
+          example: 99.99
+        page:
+          minimum: 0
+          type: integer
+          description: Page number for pagination
+          format: int32
+          example: 1
+        size:
+          maximum: 100
+          minimum: 1
+          type: integer
+          description: Page size for pagination
+          format: int32
+          example: 10
+        sortBy:
+          pattern: id|name|price|quantity
+          type: string
+          description: Field to sort by
+          example: name
+        sortDirection:
+          pattern: ASC|DESC
+          type: string
+          description: Sort direction
+          example: ASC
+      description: Search criteria for products
+    PageResponseProductDto:
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of items in the page
+          items:
+            $ref: '#/components/schemas/ProductDto'
+        number:
+          type: integer
+          description: Current page number
+          format: int32
+          example: 1
+        size:
+          type: integer
+          description: Size of the page
+          format: int32
+          example: 10
+        totalElements:
+          type: integer
+          description: Total number of elements
+          format: int64
+          example: 50
+        totalPages:
+          type: integer
+          description: Total number of pages
+          format: int32
+          example: 5
+      description: Response containing a page of data
