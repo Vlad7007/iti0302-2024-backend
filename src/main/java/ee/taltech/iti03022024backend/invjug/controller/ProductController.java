@@ -2,6 +2,8 @@ package ee.taltech.iti03022024backend.invjug.controller;
 
 import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
 import ee.taltech.iti03022024backend.invjug.service.ProductService;
+import ee.taltech.iti03022024backend.invjug.specifications.PageResponse;
+import ee.taltech.iti03022024backend.invjug.specifications.ProductSearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RequestMapping("/api/products")
 @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
@@ -39,13 +40,14 @@ public class ProductController {
 
     @GetMapping
     @Operation(
-            summary = "Get all products",
-            description = "Fetches a list of all products available in the system."
+            summary = "Get products based on search criteria",
+            description = "Fetches a list of products that match the provided search criteria."
     )
     @ApiResponse(responseCode = "200", description = "Successfully received list of products")
-    public List<ProductDto> getAllProducts() {
-        return productService.getAllProducts();
+    public PageResponse<ProductDto> getProducts(@Valid @ModelAttribute ProductSearchCriteria criteria) {
+        return productService.findProducts(criteria);
     }
+
 
     @Operation(
             summary = "Get a product by ID",
