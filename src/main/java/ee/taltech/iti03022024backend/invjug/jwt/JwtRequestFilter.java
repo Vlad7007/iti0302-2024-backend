@@ -43,6 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             log.info("Request URI: {}", request.getRequestURI());
 
             Optional<String> token = getToken(request);
+            log.info("Received token: {}", token);
 
             token.ifPresentOrElse(
                     tokenValue -> {
@@ -62,6 +63,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             handleException(response, "An error occurred while processing the JWT", HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getRequestURI().startsWith("/api/auth/register") ||
+                request.getRequestURI().startsWith("/api/auth/login");
     }
 
     private Optional<String> getToken(HttpServletRequest request) {

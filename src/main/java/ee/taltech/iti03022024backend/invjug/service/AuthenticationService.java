@@ -56,6 +56,7 @@ public class AuthenticationService {
         userRepository.save(newUser);
 
         String token = applicationConfiguration.generateToken(newUser, key);
+        log.info("New user created: {}, {}, {}", newUser.getUsername(), newUser.getEmail(), newUser.getRole());
         return new TokenResponseDto(token);
     }
 

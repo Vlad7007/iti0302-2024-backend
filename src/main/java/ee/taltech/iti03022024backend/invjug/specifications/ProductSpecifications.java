@@ -6,6 +6,9 @@ import org.springframework.data.jpa.domain.Specification;
 import java.math.BigDecimal;
 
 public class ProductSpecifications {
+    private static final String PRICE = "price";
+
+    private ProductSpecifications() {}
 
     public static Specification<ProductEntity> nameContains(String name) {
         return (root, query, criteriaBuilder) ->
@@ -15,11 +18,11 @@ public class ProductSpecifications {
     public static Specification<ProductEntity> priceInRange(BigDecimal minPrice, BigDecimal maxPrice) {
         return (root, query, criteriaBuilder) -> {
             if (minPrice != null && maxPrice != null) {
-                return criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
+                return criteriaBuilder.between(root.get(PRICE), minPrice, maxPrice);
             } else if (minPrice != null) {
-                return criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice);
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(PRICE), minPrice);
             } else if (maxPrice != null) {
-                return criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice);
+                return criteriaBuilder.lessThanOrEqualTo(root.get(PRICE), maxPrice);
             }
             return null;
         };

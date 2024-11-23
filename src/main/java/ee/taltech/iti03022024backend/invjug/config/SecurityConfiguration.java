@@ -6,7 +6,6 @@ import ee.taltech.iti03022024backend.invjug.entities.UserEntity;
 import ee.taltech.iti03022024backend.invjug.errorhandling.ErrorResponse;
 import ee.taltech.iti03022024backend.invjug.jwt.JwtRequestFilter;
 import ee.taltech.iti03022024backend.invjug.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,21 +22,41 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StringUtils;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Slf4j
-@AllArgsConstructor
 @Configuration
 public class SecurityConfiguration {
 
-    private JwtRequestFilter jwtRequestFilter;
+    private final JwtRequestFilter jwtRequestFilter;
     private final UserRepository userRepository;
     private static final String GOD = "ADMIN";
+    private final Environment env;
+
     @Autowired
-    private Environment env;
+    public SecurityConfiguration(JwtRequestFilter jwtRequestFilter, UserRepository userRepository, Environment env) {
+        this.jwtRequestFilter = jwtRequestFilter;
+        this.userRepository = userRepository;
+        this.env = env;
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
     @Bean
@@ -49,7 +68,7 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products", "/api/categories", "/api/suppliers").hasAnyRole("USER", "MANAGER", GOD)
                         .requestMatchers(HttpMethod.POST, "/api/products", "/api/categories", "/api/suppliers").hasAnyRole("MANAGER", GOD)
                         .requestMatchers("/api/admin/**").hasRole(GOD)
@@ -64,6 +83,7 @@ public class SecurityConfiguration {
                         })
                 )
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(corsFilter(), JwtRequestFilter.class);
         return http.build();
     }
 

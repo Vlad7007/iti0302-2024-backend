@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ee.taltech.iti03022024backend.invjug.entities.CategoryEntity;
 import ee.taltech.iti03022024backend.invjug.errorhandling.NotFoundException;
 import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
+import ee.taltech.iti03022024backend.invjug.errorhandling.ProductServiceException;
 import ee.taltech.iti03022024backend.invjug.mapping.ProductMapper;
 import ee.taltech.iti03022024backend.invjug.entities.ProductEntity;
 import ee.taltech.iti03022024backend.invjug.repository.CategoryRepository;
@@ -71,7 +72,7 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public PageResponse<ProductDto> findProducts(ProductSearchCriteria criteria) {
+    public PageResponse<ProductDto> findProducts(ProductSearchCriteria criteria) throws ProductServiceException {
         Specification<ProductEntity> spec = Specification.where(null);
 
         if (criteria.name() != null) {
@@ -97,7 +98,7 @@ public class ProductService {
         try {
             jsonContent = objectMapper.writeValueAsString(productPage.map(productMapper::toProductDto).getContent());
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new ProductServiceException(e.getMessage());
         }
         log.info("Raw page content in JSON:\n {}", jsonContent);
 

@@ -1,6 +1,7 @@
 package ee.taltech.iti03022024backend.invjug.controller;
 
 import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
+import ee.taltech.iti03022024backend.invjug.errorhandling.ProductServiceException;
 import ee.taltech.iti03022024backend.invjug.service.ProductService;
 import ee.taltech.iti03022024backend.invjug.specifications.PageResponse;
 import ee.taltech.iti03022024backend.invjug.specifications.ProductSearchCriteria;
@@ -44,7 +45,7 @@ public class ProductController {
             description = "Fetches a list of products that match the provided search criteria."
     )
     @ApiResponse(responseCode = "200", description = "Successfully received list of products")
-    public PageResponse<ProductDto> getProducts(@Valid @ModelAttribute ProductSearchCriteria criteria) {
+    public PageResponse<ProductDto> getProducts(@Valid @ModelAttribute ProductSearchCriteria criteria) throws ProductServiceException {
         return productService.findProducts(criteria);
     }
 
