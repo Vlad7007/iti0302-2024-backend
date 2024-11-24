@@ -500,11 +500,11 @@ components:
           description: Maximum price of the product to search for
           example: 99.99
         page:
-          minimum: 0
+          minimum: 1
           type: integer
           description: Page number for pagination
           format: int32
-          example: 1
+          example: 2
         size:
           maximum: 100
           minimum: 1

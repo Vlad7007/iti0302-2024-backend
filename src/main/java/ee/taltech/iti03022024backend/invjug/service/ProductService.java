@@ -1,11 +1,8 @@
 package ee.taltech.iti03022024backend.invjug.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ee.taltech.iti03022024backend.invjug.entities.CategoryEntity;
 import ee.taltech.iti03022024backend.invjug.errorhandling.NotFoundException;
 import ee.taltech.iti03022024backend.invjug.dto.ProductDto;
-import ee.taltech.iti03022024backend.invjug.errorhandling.ProductServiceException;
 import ee.taltech.iti03022024backend.invjug.mapping.ProductMapper;
 import ee.taltech.iti03022024backend.invjug.entities.ProductEntity;
 import ee.taltech.iti03022024backend.invjug.repository.CategoryRepository;
@@ -72,7 +69,7 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public PageResponse<ProductDto> findProducts(ProductSearchCriteria criteria) throws ProductServiceException {
+    public PageResponse<ProductDto> findProducts(ProductSearchCriteria criteria) {
         Specification<ProductEntity> spec = Specification.where(null);
 
         if (criteria.name() != null) {
@@ -84,24 +81,13 @@ public class ProductService {
 
         String sortBy = criteria.sortBy() != null ? criteria.sortBy() : "id";
         String direction = criteria.sortDirection() != null ? criteria.sortDirection().toUpperCase() : "DESC";
-        int pageNumber = criteria.page() != null ? criteria.page() : 0;
+        int pageNumber = criteria.page() != null ? criteria.page() - 1 : 0;
         int pageSize = criteria.size() != null ? criteria.size() : 20;
 
         Sort sort = Sort.by(Sort.Direction.valueOf(direction), sortBy);
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
 
         Page<ProductEntity> productPage = productRepository.findAll(spec, pageable);
-
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonContent = null;
-        try {
-            jsonContent = objectMapper.writeValueAsString(productPage.map(productMapper::toProductDto).getContent());
-        } catch (JsonProcessingException e) {
-            throw new ProductServiceException(e.getMessage());
-        }
-        log.info("Raw page content in JSON:\n {}", jsonContent);
-
 
         return PageResponse.of(productPage.map(productMapper::toProductDto));
     }

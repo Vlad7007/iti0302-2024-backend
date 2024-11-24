@@ -19,8 +19,8 @@ public record ProductSearchCriteria(
         @PositiveOrZero(message = "Maximum price must be zero or positive")
         BigDecimal maxPrice,
 
-        @Schema(description = "Page number for pagination", example = "1")
-        @Min(value = 0, message = "Page number must be zero or greater")
+        @Schema(description = "Page number for pagination", example = "2")
+        @Min(value = 1, message = "Page number must be greater than one")
         Integer page,
 
         @Schema(description = "Page size for pagination", example = "10")

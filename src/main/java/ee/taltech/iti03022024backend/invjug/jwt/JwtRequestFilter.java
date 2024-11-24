@@ -43,7 +43,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             log.info("Request URI: {}", request.getRequestURI());
 
             Optional<String> token = getToken(request);
-            log.info("Received token: {}", token);
 
             token.ifPresentOrElse(
                     tokenValue -> {
