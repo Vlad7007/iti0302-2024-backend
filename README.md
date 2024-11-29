@@ -99,7 +99,7 @@ docker push your/docker-repository:latest
 
 ### How to Run the Docker Container with both the database and the application
 
-Make sure to have a properly configured `docker-compose.yaml` file in your project root.
+Make sure to have a properly configured `docker-compose.yaml` file.
 
 It could look like this:
 
