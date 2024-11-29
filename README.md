@@ -13,7 +13,19 @@ Before you can run this application, you need to have the following installed:
 
 ### How to Run Your Application
 
-To run the application, you can use the following command:
+To run the application, you can use the following commands:
+
+Update the `application.properties` file with your database credentials:
+
+   ```
+   spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
+   spring.datasource.username=your_db_username
+   spring.datasource.password=your_db_password
+   ```
+
+```bash
+docker compose up
+```
 
 ```bash
 ./gradlew bootRun
@@ -43,7 +55,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 # Set working directory
 WORKDIR /app
 # Copy the jar file
-COPY build/libs/iti0302-2024-backend-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/your-application-name.jar app.jar
 # Set ownership of the jar file
 RUN chown appuser:appgroup app.jar
 # Switch to non-root user
