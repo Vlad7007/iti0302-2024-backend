@@ -8,23 +8,47 @@ Before you can run this application, you need to have the following installed:
 
 *   [Java 21](https://adoptium.net/releases.html?variant=openjdk21&jvmVariant=hotspot) (or higher)
 *   [PostgreSQL](https://www.postgresql.org/download/) (version 15.0 or higher)
-*   [Docker](https://www.docker.com/products/docker-desktop/) (optional)
-
+*   [Docker](https://www.docker.com/products/docker-desktop/) (version 24.0 or higher)
 
 ### How to Run Your Application
-
-To run the application, you can use the following commands:
+Clone the Repository
+```bash
+git clone https://github.com/yourusername/iti0302-2024-backend.git
+cd iti0302-2024-backend
+```
 
 Update the `application.properties` file with your database credentials:
 
-   ```
-   spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
-   spring.datasource.username=your_db_username
-   spring.datasource.password=your_db_password
-   ```
+```
+spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
+spring.datasource.username=your_db_username
+spring.datasource.password=your_db_password
+```
+
+Update the `docker-compose.yaml` file with your database credentials:
+
+```yaml
+services:
+  postgres:
+    image: postgres:17.0-bookworm
+    environment:
+      - POSTGRES_USER=your_db_user
+      - POSTGRES_PASSWORD=your_db_password
+      - POSTGRES_DB=your_db_name
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+```
+
+To run the application, you can use the following commands:
 
 ```bash
 docker compose up
+```
+
+```bash
+./gradlew assemble
 ```
 
 ```bash
@@ -32,16 +56,6 @@ docker compose up
 ```
 
 This command will start the Spring Boot application using the embedded server.
-
-### How to Build It
-
-To build the application, execute the following command:
-
-```bash
-./gradlew assemble
-```
-
-This will compile the project and package it into a JAR file located in the `build/libs` directory.
 
 ### How to Create a Docker Container
 
@@ -73,61 +87,53 @@ Replace `your-application-name.jar` with the actual name of your JAR file.
 Build the Docker image using the following command:
 
 ```bash
-docker build -t vnikif/inventory-juggler:backend .
+docker build -t your/docker-repository:latest .
 ```
 
-### How to Run the Docker Container
+Make sure to push the image to your Docker repository.
+```bash
+docker push your/docker-repository:latest
+```
+
+### How to Run the Docker Container with both the database and the application
+
+Make sure to have a properly configured `docker-compose.yaml` file in your project root.
+
+It could look like this:
+
+```yaml
+services:
+  postgres:
+    image: postgres:17.1-bookworm
+    environment:
+      - POSTGRES_USER=your_db_user
+      - POSTGRES_PASSWORD=your_db_password
+      - POSTGRES_DB=your_db_name
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  backend:
+    image: your/docker-repository:latest
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./application.properties:/app/application.properties
+
+```
+Make sure to configure the `application.properties` file with your database credentials.
+Can be done the same way as when running without docker.
 
 To run the Docker container, use the following command:
 
 ```bash
-docker run -p 8080:8080 vnikif/inventory-juggler
+docker compose up
 ```
 
 This command will start the container and map port 8080 of the container to port 8080 on your host machine.
-
-### Setup Instructions
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/yourusername/iti0302-2024-backend.git
-   cd iti0302-2024-backend
-   ```
-
-2. **Configure the Database**
-
-   Update the `application.properties` file with your database credentials:
-
-   ```
-   spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
-   spring.datasource.username=your_db_username
-   spring.datasource.password=your_db_password
-   ```
-
-3. **Install Java 21**
-
-    Download and install Java 21 
-
-4. **Build the Project**
-
-   Run the following command to build the project:
-
-   ```bash
-   ./gradlew assemble
-   ```
-
-5. **Run the Application**
-
-   Start the application using:
-
-   ```bash
-   ./gradlew bootRun
-   ```
-
-6. **Access the Application**
-
-   Open your browser and navigate to `http://localhost:8080` to access the application.
-
 
 ### Technologies Used
 
