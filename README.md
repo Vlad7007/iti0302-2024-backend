@@ -11,7 +11,9 @@ Before you can run this application, you need to have the following installed:
 *   [Docker](https://www.docker.com/products/docker-desktop/) (version 24.0 or higher)
 
 ### How to Run Your Application
+
 Clone the Repository
+
 ```bash
 git clone https://github.com/yourusername/iti0302-2024-backend.git
 cd iti0302-2024-backend
@@ -40,7 +42,7 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 ```
-
+Before running, make sure that Docker Desktop is running.
 To run the application, you can use the following commands:
 
 ```bash
@@ -126,6 +128,9 @@ services:
 ```
 Make sure to configure the `application.properties` file with your database credentials.
 Can be done the same way as when running without docker.
+
+Before running, make sure that Docker Desktop is running.
+
 
 To run the Docker container, use the following command:
 
