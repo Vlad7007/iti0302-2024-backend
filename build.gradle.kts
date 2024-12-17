@@ -36,9 +36,6 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
     implementation("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
     implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-
-
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")

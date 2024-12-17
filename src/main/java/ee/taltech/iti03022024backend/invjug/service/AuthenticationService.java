@@ -4,9 +4,11 @@ import ee.taltech.iti03022024backend.invjug.config.ApplicationConfiguration;
 import ee.taltech.iti03022024backend.invjug.dto.LoginRequestDto;
 import ee.taltech.iti03022024backend.invjug.dto.RegisterRequestDto;
 import ee.taltech.iti03022024backend.invjug.dto.TokenResponseDto;
+import ee.taltech.iti03022024backend.invjug.entities.InvalidTokenEntity;
 import ee.taltech.iti03022024backend.invjug.entities.Role;
 import ee.taltech.iti03022024backend.invjug.entities.UserEntity;
 import ee.taltech.iti03022024backend.invjug.errorhandling.AuthenticationException;
+import ee.taltech.iti03022024backend.invjug.repository.InvalidTokenRepository;
 import ee.taltech.iti03022024backend.invjug.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
 
 @Slf4j
 @Service
@@ -23,6 +26,7 @@ import javax.crypto.SecretKey;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
+    private final InvalidTokenRepository invalidTokenRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ApplicationConfiguration applicationConfiguration;
     private final SecretKey key;
@@ -59,5 +63,17 @@ public class AuthenticationService {
         log.info("New user created: {}, {}, {}", newUser.getUsername(), newUser.getEmail(), newUser.getRole());
         return new TokenResponseDto(token);
     }
+
+    public void logout(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
+        InvalidTokenEntity invalidToken = new InvalidTokenEntity();
+        invalidToken.setToken(token);
+        invalidToken.setInvalidatedAt(new Date());
+        invalidTokenRepository.save(invalidToken);
+    }
+
 
 }

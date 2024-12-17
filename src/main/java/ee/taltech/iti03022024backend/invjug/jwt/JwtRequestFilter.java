@@ -2,6 +2,7 @@ package ee.taltech.iti03022024backend.invjug.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ee.taltech.iti03022024backend.invjug.errorhandling.ErrorResponse;
+import ee.taltech.iti03022024backend.invjug.repository.InvalidTokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -34,6 +35,7 @@ import java.util.Optional;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final SecretKey key;
+    private final InvalidTokenRepository invalidTokenRepository;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -77,6 +79,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private Claims parseToken(String token) {
+        if (invalidTokenRepository.existsByToken(token)) {
+            throw new SignatureException("Token is invalidated");
+        }
         return Jwts.parser()
                 .verifyWith(key)
                 .build()
