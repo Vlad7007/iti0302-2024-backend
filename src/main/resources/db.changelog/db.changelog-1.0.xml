@@ -38,6 +38,20 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2024-12-17 Add invalid_tokens table" author="Inventory Juggler Org.">
+        <createTable tableName="invalid_tokens">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="token" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invalidated_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet id="2024-10-16 Add product table" author="Inventory Juggler Org.">
         <createTable tableName="product">
             <column name="id" type="bigint" defaultValueComputed="NEXTVAL('product_seq')">
