@@ -7,6 +7,7 @@ import ee.taltech.iti03022024backend.invjug.mapping.ProductMapper;
 import ee.taltech.iti03022024backend.invjug.entities.ProductEntity;
 import ee.taltech.iti03022024backend.invjug.repository.CategoryRepository;
 import ee.taltech.iti03022024backend.invjug.repository.ProductRepository;
+import ee.taltech.iti03022024backend.invjug.repository.SupplierRepository;
 import ee.taltech.iti03022024backend.invjug.specifications.PageResponse;
 import ee.taltech.iti03022024backend.invjug.specifications.ProductSearchCriteria;
 import ee.taltech.iti03022024backend.invjug.specifications.ProductSpecifications;
@@ -29,12 +30,15 @@ public class ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final SupplierRepository supplierRepository;
 
     private static final String PRODUCT_MESSAGE = "Product not found";
     private static final String CATEGORY_MESSAGE = "One or more categories not found";
+    private static final String SUPPLIER_MESSAGE = "One or more suppliers not found";
 
     public ProductDto createProduct(ProductDto productDto) {
         validateCategoryIds(productDto.categoryIds());
+        validateSupplierId(productDto.supplierId());
         ProductEntity productEntity = productMapper.toProductEntity(productDto);
         List<CategoryEntity> categories = categoryRepository.findAllById(productDto.categoryIds());
         productEntity.setCategories(categories);
@@ -54,6 +58,7 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(PRODUCT_MESSAGE));
 
         validateCategoryIds(updatedProductDto.categoryIds());
+        validateSupplierId(updatedProductDto.supplierId());
         productMapper.updateEntityFromDto(updatedProductDto, productEntity);
         List<CategoryEntity> categories = categoryRepository.findAllById(updatedProductDto.categoryIds());
         productEntity.setCategories(categories);
@@ -96,6 +101,12 @@ public class ProductService {
         List<CategoryEntity> categories = categoryRepository.findAllById(categoryIds);
         if (categories.size() != categoryIds.size()) {
             throw new NotFoundException(CATEGORY_MESSAGE);
+        }
+    }
+
+    private void validateSupplierId(Long supplierId) {
+        if (!supplierRepository.existsById(supplierId)) {
+            throw new NotFoundException(SUPPLIER_MESSAGE);
         }
     }
 }
