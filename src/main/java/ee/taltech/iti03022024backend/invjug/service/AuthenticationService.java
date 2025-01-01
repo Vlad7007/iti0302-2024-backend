@@ -33,10 +33,10 @@ public class AuthenticationService {
 
     public TokenResponseDto login(LoginRequestDto request) {
         UserEntity user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new AuthenticationException("User not found"));
+                .orElseThrow(() -> new AuthenticationException("username", "User not found"));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            throw new AuthenticationException("Invalid password");
+            throw new AuthenticationException("password", "Invalid password");
         }
 
         String token = applicationConfiguration.generateToken(user, key);
@@ -45,10 +45,10 @@ public class AuthenticationService {
 
     public TokenResponseDto register(@Valid @RequestBody RegisterRequestDto request) {
         if (userRepository.existsByUsername(request.username())) {
-            throw new AuthenticationException("Username is already taken");
+            throw new AuthenticationException("username", "Username is already taken");
         }
         if (userRepository.existsByEmail(request.email())) {
-            throw new AuthenticationException("Email is already registered");
+            throw new AuthenticationException("email", "Email is already registered");
         }
 
         UserEntity newUser = new UserEntity();

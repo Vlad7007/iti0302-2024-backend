@@ -138,6 +138,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @SuppressWarnings("DataFlowIssue")
     void test_find_product_by_null_id_throws_exception() {
         given(productRepository.findById(null)).willThrow(IllegalArgumentException.class);
 
