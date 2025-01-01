@@ -38,7 +38,7 @@ public class CategoryService {
         return categoryMapper.toCategoryDto(categoryEntity);
     }
 
-    public CategoryDto updateCategory(Long id, @Valid CategoryDto updatedCategoryDto) {
+    public CategoryDto updateCategory(Long id, CategoryDto updatedCategoryDto) {
         CategoryEntity categoryEntity = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(CATEGORY_MESSAGE));
 
