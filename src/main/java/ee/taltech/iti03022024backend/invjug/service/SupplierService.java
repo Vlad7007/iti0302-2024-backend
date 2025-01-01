@@ -37,7 +37,7 @@ public class SupplierService {
         return supplierMapper.toSupplierDto(supplierEntity);
     }
 
-    public SupplierDto updateSupplier(Long id, @Valid SupplierDto updatedSupplierDto) {
+    public SupplierDto updateSupplier(Long id, SupplierDto updatedSupplierDto) {
         SupplierEntity supplierEntity = supplierRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(SUPPLIER_MESSAGE));
     
