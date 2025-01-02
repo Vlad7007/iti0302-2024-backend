@@ -39,7 +39,7 @@ public class SupplierController {
     })
     @GetMapping("/{id}")
     public SupplierDto getSupplier(@PathVariable Long id) {
-        return supplierService.getSupplier(id);
+        return supplierService.findSupplierById(id);
     }
 
     @Operation(summary = "Update an existing supplier", description = "Updates a supplier by its ID with provided information.")
