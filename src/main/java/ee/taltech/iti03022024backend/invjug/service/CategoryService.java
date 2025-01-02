@@ -5,7 +5,6 @@ import ee.taltech.iti03022024backend.invjug.entities.CategoryEntity;
 import ee.taltech.iti03022024backend.invjug.errorhandling.NotFoundException;
 import ee.taltech.iti03022024backend.invjug.mapping.CategoryMapper;
 import ee.taltech.iti03022024backend.invjug.repository.CategoryRepository;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
