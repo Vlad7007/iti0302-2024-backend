@@ -20,6 +20,4 @@ public abstract class AbstractIntegrationTest {
         registry.add("spring.datasource.username", POSTGRESQL_CONTAINER::getUsername);
         registry.add("spring.datasource.password", POSTGRESQL_CONTAINER::getPassword);
     }
-
-
 }

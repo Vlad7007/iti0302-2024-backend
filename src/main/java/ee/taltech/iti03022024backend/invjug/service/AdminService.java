@@ -17,6 +17,8 @@ public class AdminService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    private static final String USER_MESSAGE = "User not found";
+
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::toUserDto)
@@ -25,7 +27,7 @@ public class AdminService {
 
     public UserDto updateUser(Long id, UserDto userDto) {
         UserEntity user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+                .orElseThrow(() -> new NotFoundException(USER_MESSAGE));
 
         user.setUsername(userDto.username());
         user.setEmail(userDto.email());
@@ -37,11 +39,13 @@ public class AdminService {
 
     public UserDto getUserById(Long id) {
         UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+                .orElseThrow(() -> new NotFoundException(USER_MESSAGE));
         return userMapper.toUserDto(userEntity);
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(USER_MESSAGE));
+        userRepository.delete(user);
     }
 }

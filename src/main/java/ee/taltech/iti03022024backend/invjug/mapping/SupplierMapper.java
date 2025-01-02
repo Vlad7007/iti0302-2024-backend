@@ -2,7 +2,6 @@ package ee.taltech.iti03022024backend.invjug.mapping;
 
 import ee.taltech.iti03022024backend.invjug.dto.SupplierDto;
 import ee.taltech.iti03022024backend.invjug.entities.SupplierEntity;
-import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

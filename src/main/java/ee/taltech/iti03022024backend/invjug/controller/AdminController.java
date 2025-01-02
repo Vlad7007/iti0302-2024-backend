@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,7 @@ public class AdminController {
     @DeleteMapping("/users/{id}")
     @Operation(summary = "Delete a user", description = "Deletes a user by their ID.")
     @ApiResponse(responseCode = "204", description = "User deleted successfully")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("id") Long id) {
         adminService.deleteUser(id);
     }

@@ -25,7 +25,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    public void test_valid_login_returns_token() throws Exception {
+    void test_valid_login_returns_token() throws Exception {
         LoginRequestDto request = new LoginRequestDto("testuser", "password123");
 
         mockMvc.perform(post(BASE_URL + "/auth/login")
@@ -37,7 +37,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void test_unknown_username_returns_401() throws Exception {
+    void test_unknown_username_returns_401() throws Exception {
         LoginRequestDto request = new LoginRequestDto("unknownUser", "password123");
 
         mockMvc.perform(post(BASE_URL + "/auth/login")
@@ -48,7 +48,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void test_invalid_password_returns_400() throws Exception {
+    void test_invalid_password_returns_400() throws Exception {
         LoginRequestDto request = new LoginRequestDto("testuser", "invalid");
 
         mockMvc.perform(post(BASE_URL + "/auth/login")
@@ -59,7 +59,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void test_valid_registration_returns_token() throws Exception {
+    void test_valid_registration_returns_token() throws Exception {
         RegisterRequestDto request = new RegisterRequestDto(
                 "newuser",
                 "password123",
@@ -75,7 +75,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void test_registration_with_existing_username_fails() throws Exception {
+    void test_registration_with_existing_username_fails() throws Exception {
         RegisterRequestDto user1 = new RegisterRequestDto(
                 "existinguser",
                 "password123",
@@ -101,7 +101,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void test_logout_with_valid_bearer_token_returns_ok() throws Exception {
+    void test_logout_with_valid_bearer_token_returns_ok() throws Exception {
         LoginRequestDto request = new LoginRequestDto("testuser", "password123");
 
         String responseBody = mockMvc.perform(post(BASE_URL + "/auth/login")
@@ -121,13 +121,13 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void test_missing_auth_header_returns_error() throws Exception {
+    void test_missing_auth_header_returns_error() throws Exception {
         mockMvc.perform(post(BASE_URL + "/auth/logout"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    public void test_empty_token_returns_error() throws Exception {
+    void test_empty_token_returns_error() throws Exception {
         String emptyToken = "";
 
         mockMvc.perform(post(BASE_URL + "/auth/logout")

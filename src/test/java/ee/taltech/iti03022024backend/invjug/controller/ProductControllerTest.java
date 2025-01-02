@@ -29,7 +29,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // createProduct()
     @Test
     @WithMockUser(username = "manager", roles = {"MANAGER"})
-    public void test_create_product_as_manager_success() throws Exception {
+    void test_create_product_as_manager_success() throws Exception {
         ProductDto productDto = new ProductDto(
                 null,
                 "Manager Product",
@@ -52,7 +52,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    public void test_create_product_as_admin_success() throws Exception {
+    void test_create_product_as_admin_success() throws Exception {
         ProductDto productDto = new ProductDto(
                 null,
                 "Admin Product",
@@ -75,7 +75,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "user")
-    public void test_create_product_as_user_forbidden() throws Exception {
+    void test_create_product_as_user_forbidden() throws Exception {
         ProductDto productDto = new ProductDto(
                 null,
                 "User Product",
@@ -92,7 +92,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void test_create_product_unauthenticated_forbidden() throws Exception {
+    void test_create_product_unauthenticated_forbidden() throws Exception {
         ProductDto productDto = new ProductDto(
                 null,
                 "Unauthenticated Product",
@@ -110,7 +110,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
-    public void test_create_product_with_null_fields() throws Exception {
+    void test_create_product_with_null_fields() throws Exception {
         ProductDto productDto = new ProductDto(
                 null,
                 null,
@@ -133,7 +133,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
-    public void test_create_product_with_negative_values() throws Exception {
+    void test_create_product_with_negative_values() throws Exception {
 
         @SuppressWarnings("DataFlowIssue")
         ProductDto productDto = new ProductDto(
@@ -157,7 +157,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // getProducts()
     @Test
     @WithMockUser(username = "user")
-    public void test_get_products_by_name() throws Exception {
+    void test_get_products_by_name() throws Exception {
         mockMvc.perform(get(BASE_URL + "/products")
                         .param("name", "Smart TV")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -168,7 +168,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "user")
-    public void test_get_products_by_price_range() throws Exception {
+    void test_get_products_by_price_range() throws Exception {
         mockMvc.perform(get(BASE_URL + "/products")
                         .param("minPrice", "500")
                         .param("maxPrice", "800")
@@ -181,7 +181,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "user")
-    public void test_get_products_with_pagination() throws Exception {
+    void test_get_products_with_pagination() throws Exception {
         mockMvc.perform(get(BASE_URL + "/products")
                         .param("page", "1")
                         .param("size", "1")
@@ -194,7 +194,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "user")
-    public void test_get_products_with_sorting() throws Exception {
+    void test_get_products_with_sorting() throws Exception {
         mockMvc.perform(get(BASE_URL + "/products")
                         .param("sortBy", "price")
                         .param("sortDirection", "ASC")
@@ -207,7 +207,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // getProduct()
     @Test
     @WithMockUser(username = "user")
-    public void test_get_product_by_id_success() throws Exception {
+    void test_get_product_by_id_success() throws Exception {
         Long productId = 1L;
 
         mockMvc.perform(get(BASE_URL + "/products/" + productId)
@@ -223,7 +223,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "user")
-    public void test_get_product_by_id_not_found() throws Exception {
+    void test_get_product_by_id_not_found() throws Exception {
         long nonExistentProductId = 999L;
 
         mockMvc.perform(get(BASE_URL + "/products/" + nonExistentProductId)
@@ -236,7 +236,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // updateProduct()
     @Test
     @WithMockUser(username = "manager", roles = {"MANAGER"})
-    public void test_update_product_as_manager_success() throws Exception {
+    void test_update_product_as_manager_success() throws Exception {
         ProductDto productDto = new ProductDto(
                 null,
                 "Product to Update",
@@ -276,7 +276,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "manager", roles = {"MANAGER"})
-    public void test_update_product_not_found() throws Exception {
+    void test_update_product_not_found() throws Exception {
         Long nonExistentProductId = 999L;
         ProductDto updatedProductDto = new ProductDto(
                 nonExistentProductId,
@@ -297,7 +297,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // deleteProduct()
     @Test
     @WithMockUser(username = "manager", roles = {"MANAGER"})
-    public void test_delete_product_as_manager_success() throws Exception {
+    void test_delete_product_as_manager_success() throws Exception {
         ProductDto productDto = new ProductDto(
                 null,
                 "Product to Delete",
@@ -316,7 +316,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
 
     @Test
     @WithMockUser(username = "manager", roles = {"MANAGER"})
-    public void test_delete_product_not_found() throws Exception {
+    void test_delete_product_not_found() throws Exception {
         long nonExistentProductId = 999L;
 
         mockMvc.perform(delete(BASE_URL + "/products/" + nonExistentProductId))

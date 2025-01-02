@@ -35,7 +35,7 @@ class AdminServiceTest {
     private AdminService adminService;
 
     @Test
-    public void test_get_all_users_returns_list_of_users() {
+    void test_get_all_users_returns_list_of_users() {
         UserEntity user1 = new UserEntity();
         UserEntity user2 = new UserEntity();
         List<UserEntity> users = List.of(user1, user2);
@@ -117,24 +117,24 @@ class AdminServiceTest {
     }
 
     @Test
-    public void test_delete_user_with_valid_id() {
+    void test_delete_user_with_valid_id() {
         Long userId = 1L;
-        willDoNothing().given(userRepository).deleteById(userId);
+        UserEntity user = new UserEntity();
+        user.setId(userId);
+        given(userRepository.findById(userId)).willReturn(Optional.of(user));
 
         adminService.deleteUser(userId);
 
-        then(userRepository).should().deleteById(userId);
-        then(userRepository).shouldHaveNoMoreInteractions();
+        then(userRepository).should().delete(user);
     }
 
     @Test
-    public void test_delete_user_with_nonexistent_id() {
+    void test_delete_user_with_nonexistent_id() {
         Long nonExistentId = 999L;
-        willDoNothing().given(userRepository).deleteById(nonExistentId);
+        given(userRepository.findById(nonExistentId)).willReturn(Optional.empty());
 
-        adminService.deleteUser(nonExistentId);
+        assertThrows(NotFoundException.class, () -> adminService.deleteUser(nonExistentId));
 
-        then(userRepository).should().deleteById(nonExistentId);
-        then(userRepository).shouldHaveNoMoreInteractions();
+        then(userRepository).should(never()).delete(any(UserEntity.class));
     }
 }

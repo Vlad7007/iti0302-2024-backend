@@ -227,7 +227,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void test_search_by_name_returns_matching_products() {
+    void test_search_by_name_returns_matching_products() {
         ProductSearchCriteria criteria = new ProductSearchCriteria("apple", null, null, null, null, null, null);
 
         ProductEntity product1 = new ProductEntity();

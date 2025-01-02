@@ -50,7 +50,7 @@ class AuthenticationServiceTest {
     private AuthenticationService authenticationService;
 
     @Test
-    public void test_login_successful_with_valid_credentials() {
+    void test_login_successful_with_valid_credentials() {
         LoginRequestDto request = new LoginRequestDto("testUser", "password123");
         UserEntity user = new UserEntity();
         user.setUsername("testUser");
