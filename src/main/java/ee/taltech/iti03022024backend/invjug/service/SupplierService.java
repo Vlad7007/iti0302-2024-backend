@@ -5,7 +5,6 @@ import ee.taltech.iti03022024backend.invjug.errorhandling.NotFoundException;
 import ee.taltech.iti03022024backend.invjug.mapping.SupplierMapper;
 import ee.taltech.iti03022024backend.invjug.entities.SupplierEntity;
 import ee.taltech.iti03022024backend.invjug.repository.SupplierRepository;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ public class SupplierService {
         return suppliers.stream().map(supplierMapper::toSupplierDto).toList();
     }
 
-    public SupplierDto getSupplier(Long id) {
+    public SupplierDto findSupplierById(Long id) {
         SupplierEntity supplierEntity = supplierRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(SUPPLIER_MESSAGE));
         return supplierMapper.toSupplierDto(supplierEntity);
