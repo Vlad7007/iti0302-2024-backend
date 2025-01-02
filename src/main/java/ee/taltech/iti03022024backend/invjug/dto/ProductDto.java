@@ -26,7 +26,6 @@ public record ProductDto(
         Long quantity,
 
         @Schema(description = "List of category IDs associated with the product", example = "[1, 2, 3]")
-        @NotNull(message = "Category IDs cannot be null")
         @NotEmpty(message = "Category IDs cannot be empty")
         List<@Min(value = 1, message = "Category ID must be greater than 0") Long> categoryIds,
 
