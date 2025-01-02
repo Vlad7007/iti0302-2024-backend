@@ -6,6 +6,7 @@ import ee.taltech.iti03022024backend.invjug.service.SupplierService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,15 +19,26 @@ import java.util.List;
 @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Supplier", description = "Suppliers management APIs")
 public class SupplierController {
     private final SupplierService supplierService;
 
     @PostMapping
+    @Operation(
+            summary = "Add a new supplier to the system",
+            description = "Creates a new supplier record based on the provided details."
+    )
+    @ApiResponse(responseCode = "200", description = "Supplier added successfully")
     public SupplierDto createSupplier(@Valid @RequestBody SupplierDto supplierDto) {
         return supplierService.createSupplier(supplierDto);
     }
 
     @GetMapping
+    @Operation(
+            summary = "Get all suppliers",
+            description = "Fetches all the suppliers."
+    )
+    @ApiResponse(responseCode = "200", description = "Successfully received list of suppliers")
     public List<SupplierDto> getAllSuppliers() {
         return supplierService.getAllSuppliers();
     }

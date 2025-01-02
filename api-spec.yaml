@@ -8,11 +8,98 @@ servers:
 tags:
   - name: Authentication
     description: Authentication and authorization APIs
+  - name: Categories
+    description: Category management APIs
   - name: Products
     description: Products management APIs
+  - name: Supplier
+    description: Suppliers management APIs
   - name: Admin
     description: Admin management APIs
 paths:
+  /api/suppliers/{id}:
+    get:
+      tags:
+        - Supplier
+      summary: Get a supplier by ID
+      description: Fetches a supplier by its unique identifier.
+      operationId: getSupplier
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Supplier fetched successfully.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+        '404':
+          description: Supplier not found.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+    put:
+      tags:
+        - Supplier
+      summary: Update an existing supplier
+      description: Updates a supplier by its ID with provided information.
+      operationId: updateSupplier
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierDto'
+        required: true
+      responses:
+        '200':
+          description: Supplier updated successfully.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+        '400':
+          description: Invalid supplier data.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+        '404':
+          description: Supplier not found.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+    delete:
+      tags:
+        - Supplier
+      summary: Delete a supplier
+      description: Deletes a supplier by its unique identifier.
+      operationId: deleteSupplier
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Supplier deleted successfully.
+        '404':
+          description: Supplier not found.
   /api/products/{id}:
     get:
       tags:
@@ -90,6 +177,83 @@ paths:
           description: Product deleted successfully
         '404':
           description: Product not found
+  /api/categories/{id}:
+    get:
+      tags:
+        - Categories
+      summary: Get a category by ID
+      description: Fetches a category by its unique identifier.
+      operationId: getCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully received the category
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+        '404':
+          description: Category not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+    put:
+      tags:
+        - Categories
+      summary: Update an existing category
+      description: Updates the details of an existing category by its ID.
+      operationId: updateCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryDto'
+        required: true
+      responses:
+        '200':
+          description: Category updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+        '404':
+          description: Category not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+    delete:
+      tags:
+        - Categories
+      summary: Delete a category
+      description: Deletes a category by its unique identifier.
+      operationId: deleteCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Category deleted successfully
+        '404':
+          description: Category not found
   /api/admin/users/{id}:
     get:
       tags:
@@ -162,11 +326,13 @@ paths:
   /api/suppliers:
     get:
       tags:
-        - supplier-controller
+        - Supplier
+      summary: Get all suppliers
+      description: Fetches all the suppliers.
       operationId: getAllSuppliers
       responses:
         '200':
-          description: OK
+          description: Successfully received list of suppliers
           content:
             '*/*':
               schema:
@@ -175,7 +341,9 @@ paths:
                   $ref: '#/components/schemas/SupplierDto'
     post:
       tags:
-        - supplier-controller
+        - Supplier
+      summary: Add a new supplier to the system
+      description: Creates a new supplier record based on the provided details.
       operationId: createSupplier
       requestBody:
         content:
@@ -185,7 +353,7 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Supplier added successfully
           content:
             '*/*':
               schema:
@@ -232,11 +400,13 @@ paths:
   /api/categories:
     get:
       tags:
-        - category-controller
+        - Categories
+      summary: Get all categories
+      description: Fetches all the categories.
       operationId: getAllCategories
       responses:
         '200':
-          description: OK
+          description: Successfully received list of categories
           content:
             '*/*':
               schema:
@@ -245,7 +415,9 @@ paths:
                   $ref: '#/components/schemas/CategoryDto'
     post:
       tags:
-        - category-controller
+        - Categories
+      summary: Add a new category to the system
+      description: Creates a new category record based on the provided details.
       operationId: createCategory
       requestBody:
         content:
@@ -255,7 +427,7 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Category added successfully
           content:
             '*/*':
               schema:
@@ -280,6 +452,22 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/TokenResponseDto'
+  /api/auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout user
+      description: Logs out a user by invalidating their token.
+      operationId: logout
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully logged out
   /api/auth/login:
     post:
       tags:
@@ -318,6 +506,30 @@ paths:
                   $ref: '#/components/schemas/UserDto'
 components:
   schemas:
+    SupplierDto:
+      required:
+        - email
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the supplier
+          format: int64
+          example: 1
+        name:
+          maxLength: 255
+          minLength: 2
+          type: string
+          description: Name of the supplier
+          example: John Doe
+        email:
+          maxLength: 255
+          minLength: 2
+          type: string
+          description: Email address of the supplier
+          example: john.doe@example.com
+      description: Data transfer object for supplier information
     ProductDto:
       required:
         - categoryIds
@@ -360,11 +572,36 @@ components:
             description: List of category IDs associated with the product
             format: int64
         supplierId:
+          minimum: 1
           type: integer
           description: Supplier ID associated with the product
           format: int64
           example: 3
       description: Data Transfer Object for Product information
+    CategoryDto:
+      required:
+        - description
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the category
+          format: int64
+          example: 1
+        name:
+          maxLength: 255
+          minLength: 2
+          type: string
+          description: Name of the category
+          example: Electronics
+        description:
+          maxLength: 255
+          minLength: 2
+          type: string
+          description: Description of the category
+          example: Electronics category
+      description: Data transfer object for category information
     UserDto:
       required:
         - email
@@ -398,37 +635,6 @@ components:
             - ROLE_MANAGER
             - ROLE_ADMIN
       description: User data transfer object
-    SupplierDto:
-      required:
-        - email
-        - name
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          maxLength: 255
-          minLength: 2
-          type: string
-        email:
-          maxLength: 255
-          minLength: 2
-          type: string
-    CategoryDto:
-      required:
-        - name
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          maxLength: 255
-          minLength: 2
-          type: string
-        description:
-          type: string
     RegisterRequestDto:
       required:
         - email

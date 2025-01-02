@@ -22,7 +22,6 @@ import java.util.List;
 @Slf4j
 @Transactional
 @Tag(name = "Categories", description = "Category management APIs")
-
 public class CategoryController {
     private final CategoryService categoryService;
 
