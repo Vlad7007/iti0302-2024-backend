@@ -50,6 +50,10 @@
             <column name="name" value="Home Goods Supplier"/>
             <column name="email" value="info@homegoods.com"/>
         </insert>
+        <insert tableName="supplier">
+            <column name="name" value="Johnathan Drop Tables"/>
+            <column name="email" value="johnathan@drop.tables"/>
+        </insert>
 
         <insert tableName="product">
             <column name="name" value="Smart TV"/>
