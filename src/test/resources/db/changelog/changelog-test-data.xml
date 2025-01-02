@@ -66,6 +66,50 @@
             <column name="product_id" value="1"/>
             <column name="category_id" value="2"/>
         </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Laptop"/>
+            <column name="price" value="1200"/>
+            <column name="quantity" value="5"/>
+            <column name="supplier_id" value="1"/>
+        </insert>
+        <insert tableName="product_category">
+            <column name="product_id" value="2"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Refrigerator"/>
+            <column name="price" value="800"/>
+            <column name="quantity" value="3"/>
+            <column name="supplier_id" value="2"/>
+        </insert>
+        <insert tableName="product_category">
+            <column name="product_id" value="3"/>
+            <column name="category_id" value="2"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Microwave"/>
+            <column name="price" value="150"/>
+            <column name="quantity" value="20"/>
+            <column name="supplier_id" value="2"/>
+        </insert>
+        <insert tableName="product_category">
+            <column name="product_id" value="4"/>
+            <column name="category_id" value="2"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Smartphone"/>
+            <column name="price" value="700"/>
+            <column name="quantity" value="15"/>
+            <column name="supplier_id" value="1"/>
+        </insert>
+        <insert tableName="product_category">
+            <column name="product_id" value="5"/>
+            <column name="category_id" value="1"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>
